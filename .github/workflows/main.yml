@@ -25,7 +25,7 @@ jobs:
       - name: test
         run: ./mvnw -pl byte-buddy-dep test -Dtest=net.bytebuddy.dynamic.scaffold.MethodGraphCompilerDefaultTest#testGenericNonOverriddenInterfaceImplementation -Dcheckstyle.skip
         continue-on-error: false
-    testNonDex:
+  testNonDex:
     name: testNonDex
     runs-on: ubuntu-20.04
     continue-on-error: true
