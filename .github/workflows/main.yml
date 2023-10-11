@@ -11,9 +11,8 @@ on:
 permissions: read-all
 jobs:
   test:
-    name: HotSpot (EA)
+    name: test
     runs-on: ubuntu-20.04
-    needs: [ extended ]
     continue-on-error: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
