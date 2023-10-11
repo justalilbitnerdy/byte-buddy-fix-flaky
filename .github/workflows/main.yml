@@ -10,9 +10,26 @@ on:
     - cron: "0 0 * * 1"
 permissions: read-all
 jobs:
+  buildForTest:
+    name: buildForTest
+    runs-on: ubuntu-20.04
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/setup-java@cd89f46ac9d01407894225f350157564c9c7cee2 # v3.12.0
+        with:
+          java-version: 8
+          distribution: temurin
+          architecture: x64
+          cache: maven
+      - name: buildForTest
+        run: ./mvnw clean install -Dcheckstyle.skip -DskipTests -pl byte-buddy-dep -am 
+
+        continue-on-error: false
   test:
     name: test
     runs-on: ubuntu-20.04
+    needs: [ buildForTest ]
     continue-on-error: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
@@ -28,6 +45,7 @@ jobs:
   testNonDex:
     name: testNonDex
     runs-on: ubuntu-20.04
+    needs: [ buildForTest ]
     continue-on-error: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
